@@ -449,10 +449,11 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    // Optimization: changed querySelectAll() to getElementsByClassName
+    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
+      var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[i], size);
+      var newwidth = (document.getElementsByClassName("randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+      document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
     }
   }
 
@@ -468,7 +469,10 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-for (var i = 2; i < 100; i++) {
+// Optimization: created global variable pizzaNumber
+var pizzaNumber = 100
+
+for (var i = 2; i < pizzaNumber; i++) {
   var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
@@ -504,11 +508,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Optimization2: created variable items outside of updatePositions() function so it doesn't need to be invoked on every scroll
 var items = document.getElementsByClassName('mover');
 
-// Optimization4: created variable scrollNow for scroll inside the page doesn't change much and would save some memory
-var scrollNow = document.body.scrollTop;
-
 // 
 var modulo5 = [-0.236155320696897, -0.9452655121880633, -0.7853029510887806, 0.09666352163141724, 0.8897579983503596];
+
+// Optimization5: creating variable outside of updatePositions() function so styleChange reads it beforehand and doesn't
+// create unnecessary layout iterations
+// READ: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#avoid-forced-synchronous-layouts
+// var styleChange  = items[i].basicLeft + 100 * phase
+
+// Optimization4: created variable scrollNow for scroll inside the page doesn't change much and would save some memory
+var scrollNow = document.body.scrollTop;
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
@@ -517,12 +526,14 @@ function updatePositions() {
 
   // Optimization3: created new variable outside of for loop to decrease access to items variable everytime the for loop runs
   // saves minimum loading, scrolling time. Barely visible in the browser.
-
   var cachedItems = items.length;
 
+  // 
+  var mathScroll = Math.sin(scrollNow / 1250);
+
   for (var i = 0; i < cachedItems; i++) {
-    var phase = Math.sin((scrollNow / 1250) + modulo5);
-    console.log(phase, document.body.scroll / 1250);
+    var phase =  mathScroll + modulo5;
+    // console.log(phase, document.body.scroll / 1250);
 
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
