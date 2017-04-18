@@ -496,19 +496,32 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+
+// Optimization1: using getElementByClass() for mover class instead of querySelectorAll() to improve FPS on scroll because
+// querySelectorAll returns a static NodeList (gets all tags, classes even when we don't need them),
+// while getElementByClass() returns a live NodeList (gets only what we need at X moment/situation)
+// https://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/
+// Optimization2: created variable items outside of updatePositions() function so it doesn't need to be invoked on every scroll
+var items = document.getElementsByClassName('mover');
+
+// Optimization4: created variable scrollNow for scroll inside the page doesn't change much and would save some memory
+var scrollNow = document.body.scrollTop;
+
+// 
+var modulo5 = [-0.236155320696897, -0.9452655121880633, -0.7853029510887806, 0.09666352163141724, 0.8897579983503596];
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  // using getElementByClass() for mover instead of querySelectorAll() to improve FPS on scroll because
-  // querySelectorAll returns a static NodeList (gets all tags, classes even when we don't need them),
-  // while getElementByClass() returns a live NodeList (gets only what we need at X moment/situation)
+  // Optimization3: created new variable outside of for loop to decrease access to items variable everytime the for loop runs
+  // saves minimum loading, scrolling time. Barely visible in the browser.
 
-  // https://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/
-  var items = document.getElementsByClassName('mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+  var cachedItems = items.length;
+
+  for (var i = 0; i < cachedItems; i++) {
+    var phase = Math.sin((scrollNow / 1250) + modulo5);
     console.log(phase, document.body.scroll / 1250);
 
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
