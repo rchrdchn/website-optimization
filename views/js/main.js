@@ -508,9 +508,6 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Optimization2: created variable items outside of updatePositions() function so it doesn't need to be invoked on every scroll
 var items = document.getElementsByClassName('mover');
 
-// 
-var modulo5 = [-0.236155320696897, -0.9452655121880633, -0.7853029510887806, 0.09666352163141724, 0.8897579983503596];
-
 // Optimization5: creating variable outside of updatePositions() function so styleChange reads it beforehand and doesn't
 // create unnecessary layout iterations
 // READ: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#avoid-forced-synchronous-layouts
@@ -524,15 +521,14 @@ function updatePositions() {
   // Optimization3: created new variable outside of for loop to decrease access to items variable everytime the for loop runs
   // saves minimum loading, scrolling time. Barely visible in the browser.
   var cachedItems = items.length;
-
-  // mathScroll will perform calculations outside of the for loop
-  var mathScroll = Math.sin(document.body.scrollTop / 1250);
+  // This is (i % 5). Got the 5 exact remainders so it doesn't have to calculate it over and over
+  var modulo = ["0.7106192475897781", "1.7106192475897781", "2.7106192475897783", "3.7106192475897783", "4.710619247589778"];
 
   for (var i = 0; i < cachedItems; i++) {
-    var phase =  mathScroll + modulo5;
+    var phase =  Math.sin(document.body.scrollTop / 1250) + (modulo);
     // console.log(phase, document.body.scroll / 1250);
-
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // Removed style.left and added CSS transform (translateZ and translate3d) and backface-visibility properties - didn't make much change
+    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -552,7 +548,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 50; i++) {
+  // changed 200 to 35, so it renders 35 pizzas at a time at a 1440 x 900 screen
+  for (var i = 0; i < 35; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
