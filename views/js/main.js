@@ -522,10 +522,11 @@ function updatePositions() {
   // saves minimum loading, scrolling time. Barely visible in the browser.
   var cachedItems = items.length;
   // This is (i % 5). Got the 5 exact remainders so it doesn't have to calculate it over and over
-  var modulo = ["0.7106192475897781", "1.7106192475897781", "2.7106192475897783", "3.7106192475897783", "4.710619247589778"];
+  var modulo = ["0.7106192475897781", "0.5338946899779736", "1.7106192475897781", "2.7106192475897783", "1.5338946899779735", "2.5338946899779735", "3.5338946899779735", "3.7106192475897783", "4.5338946899779735", "4.710619247589778"];
+  var scrollNow = document.body.scrollTop / 1250;
 
   for (var i = 0; i < cachedItems; i++) {
-    var phase =  Math.sin(document.body.scrollTop / 1250) + (modulo);
+    var phase =  Math.sin(scrollNow) + (modulo);
     // console.log(phase, document.body.scroll / 1250);
     // Removed style.left and added CSS transform (translateZ and translate3d) and backface-visibility properties - didn't make much change
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
@@ -549,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   // changed 200 to 35, so it renders 35 pizzas at a time at a 1440 x 900 screen
-  for (var i = 0; i < 35; i++) {
+  for (var i = 0; i < 50; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
