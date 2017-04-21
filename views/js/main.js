@@ -516,9 +516,6 @@ var modulo5 = [-0.236155320696897, -0.9452655121880633, -0.7853029510887806, 0.0
 // READ: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#avoid-forced-synchronous-layouts
 // var styleChange  = items[i].basicLeft + 100 * phase
 
-// Optimization4: created variable scrollNow for scroll inside the page doesn't change much and would save some memory
-var scrollNow = document.body.scrollTop;
-
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
@@ -528,8 +525,8 @@ function updatePositions() {
   // saves minimum loading, scrolling time. Barely visible in the browser.
   var cachedItems = items.length;
 
-  // 
-  var mathScroll = Math.sin(scrollNow / 1250);
+  // mathScroll will perform calculations outside of the for loop
+  var mathScroll = Math.sin(document.body.scrollTop / 1250);
 
   for (var i = 0; i < cachedItems; i++) {
     var phase =  mathScroll + modulo5;
@@ -555,7 +552,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < s.length; i++) {
+  for (var i = 0; i < 50; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
