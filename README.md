@@ -1,4 +1,4 @@
-## There were two main goals for this website performance optimization project
+## Two main goals for this website performance optimization project
 
 1) Optimize Website Performance by working on the Critical Rendering Path (CRP) for 90+ speed per Google PageSpeed Insights
 2) Optimize Frames per Second (FPS) to perform at 60fps in pizza.html by getting rid of all the jank when resizing and scrolling through the website.
