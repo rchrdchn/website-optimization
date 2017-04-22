@@ -16,12 +16,34 @@ I've also applied skills such as Minify and Inline CSS for stylesheets and web f
 * Minified and inlined CSS and added in index.html
 * Added `asynch` to JS Script and moved to the bottom of index.html body
 * Optimized all images using ImageOptim
+#### How to run it
+* Download Zip file from [repository](https://github.com/rchrdchn/website-optimization)
+* Unzip file
+* Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
+* Use Command Line to create local server - instructions here:
+  ``` bash
+  $> cd /path/to/your-project-folder
+  $> ./ngrok http 8080
+  ```
+* Copy the `http` link to your `local host 8080`
+* Open browser and go to [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
+* RESULT: Paste `http local host 8080` link in PageSpeed Insights to see final result of 90+
 
 #### Part 2: Optimize Frames per Second in pizza.html
 * Edited the main.js file so the resizing of the pizzas happens in less than 5 ms and the scrolling runs at 60 FPS
 * Simplified the function `resizePizzas` so it doesn't trigger forced synchronous layout (FSL). The pizzas width simply gets set to a certain percentage of the original image size, depending on the slider position.
 * Changed `updatePositions` so it doesn't trigger FSL by first getting `scrollTop` and then updating all elements later.
 * Updated `querySelectorAll("#mover")` to `getElementsByClassName("mover")` so it doesn't have to recalculate on every iteration
+#### How to run it
+* Download Zip file from [repository](https://github.com/rchrdchn/website-optimization)
+* Unzip file
+* Open browser
+* Go to project folder -> `views` folder -> open `pizza.html`
+* Right click on pizza.html window, select inspect, go to `console` to view time to generate layout and paint in miliseconds (ms)
+* Alternative in Mac: `option` + `command` + `j` keyword
+* Press `esc` keyword, click on the `rendering` tab, and check `FPS meter`
+* With `console` opened, scroll down and up in the web page
+* RESULT: you should see Frame Rate on the upper right to be 60 fps consistently
 
 To get started, check out the repository and inspect the code.
 
