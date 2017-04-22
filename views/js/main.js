@@ -516,7 +516,7 @@ function updatePositions() {
   var scrollNow = document.body.scrollTop / 1250;
 
   for (var i = 0; i < cachedItems; i++) {
-    var phase =  Math.sin(scrollNow) + (i % 5);
+    var phase =  Math.sin(scrollNow + (i % 5));
     // console.log(phase, document.body.scroll / 1250);
     
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
