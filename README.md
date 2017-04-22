@@ -1,6 +1,14 @@
+# There were two main goals for this website performance optimization project
+
+1) Optimize Website Performance by working on the Critical Rendering Path (CRP) for 90+ speed per Google PageSpeed Insights
+2) Optimize Frames per Second (FPS) to perform at 60fps in pizza.html by getting rid of all the jank when resizing and scrolling through the website.
+
 ## Website Performance Optimization portfolio project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+The goal of this project was to optimize the online portfolio for speed. How? By using different tools and skills such as Google Developer Tools to inspect and optimize the Critical Rendering Path (CRP) to render as quickly as possible, [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/) to understand and optimize performace in terms of speed, [ngrok](https://ngrok.com/) to run a local server and use the public link in PageSpeed. 
+
+I've also applied skills such as Minify and Inline CSS for stylesheets and web fonts, asynch JS, and elimination of render-blocking CSS and JavaScript in above-the-fold content.
+
 
 To get started, check out the repository and inspect the code.
 
@@ -32,7 +40,7 @@ Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
 #### Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+To optimize views/pizza.html, I had to modify views/js/main.js until frames per second rate is 60 fps or higher. All optimization can be found in the comments in main.js. 
 
 You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
 
@@ -53,3 +61,6 @@ The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstra
 
 * <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
 * <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
+
+### Author
+Code written and optimized by [Richard Chan](http://richardchan.me/)

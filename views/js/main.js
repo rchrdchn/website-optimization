@@ -421,35 +421,11 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  //  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  // function determineDx (elem, size) {
-  //   var oldWidth = elem.offsetWidth;
-  //   var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
-  //   var oldSize = oldWidth / windowWidth;
-
-  //   // Changes the slider value to a percent width
-  //   function sizeSwitcher (size) {
-  //     switch(size) {
-  //       case "1":
-  //         return 0.25;
-  //       case "2":
-  //         return 0.3333;
-  //       case "3":
-  //         return 0.5;
-  //       default:
-  //         console.log("bug in sizeSwitcher");
-  //     }
-  //   }
-
-  //   var newSize = sizeSwitcher(size);
-  //   var dx = (newSize - oldSize) * windowWidth;
-
-  //   return dx;
-  // }
-
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
+      // created variable newWidth to hold
       var newWidth;
+      // added switch for when person uses slider. Everytime person resizes, pizza sizes (width) will change according to small (25%), medium (33.33%), or big (50%)
       switch(size) {
         case "1":
           newWidth = 25;
@@ -458,18 +434,19 @@ var resizePizzas = function(size) {
           newWidth = 33.33;
           break;
         case "3":
-          newwidth = 50;
+          newWidth = 50;
           break;
         default:
           console.log("bug in sizeSwitcher");
         }
-
-        var randomPizzaContainers = document.getElementsByClassName("randomPizzaContainer");
-        var length = randomPizzaContainers.length;
-
-    // Optimization: changed querySelectAll() to getElementsByClassName
+    
+    // Created variable outside of For Loop so repeated calculations don't happen every time it loops (saves time). Changed querySelectAll() to getElementsByClassName
+    var randomPizzaContainers = document.getElementsByClassName("randomPizzaContainer");
+    // Created var length, which contains var randomPizzaContainers.length
+    var length = randomPizzaContainers.length;
+    // For Loop loops through every "randomPizzaContainer" class and changes width when person uses slider
     for (var i = 0; i < length; i++) {
-      randomPizzaContainers[i].style.width = newwidth + "%";
+      randomPizzaContainers[i].style.width = newWidth + "%";
     }
   }
 
@@ -527,7 +504,6 @@ var items = document.getElementsByClassName('mover');
 // Optimization5: creating variable outside of updatePositions() function so styleChange reads it beforehand and doesn't
 // create unnecessary layout iterations
 // READ: https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing#avoid-forced-synchronous-layouts
-// var styleChange  = items[i].basicLeft + 100 * phase
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
@@ -537,15 +513,13 @@ function updatePositions() {
   // Optimization3: created new variable outside of for loop to decrease access to items variable everytime the for loop runs
   // saves minimum loading, scrolling time. Barely visible in the browser.
   var cachedItems = items.length;
-  // This is (i % 5). Got the 5 exact remainders so it doesn't have to calculate it over and over
-  var modulo = ["0.7106192475897781", "0.5338946899779736", "1.7106192475897781", "2.7106192475897783", "1.5338946899779735", "2.5338946899779735", "3.5338946899779735", "3.7106192475897783", "4.5338946899779735", "4.710619247589778"];
   var scrollNow = document.body.scrollTop / 1250;
 
   for (var i = 0; i < cachedItems; i++) {
-    var phase =  Math.sin(scrollNow) + (modulo);
+    var phase =  Math.sin(scrollNow) + (i % 5);
     // console.log(phase, document.body.scroll / 1250);
-    // Removed style.left and added CSS transform (translateZ and translate3d) and backface-visibility properties - didn't make much change
-    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    
+    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
