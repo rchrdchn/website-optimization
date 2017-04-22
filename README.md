@@ -1,4 +1,4 @@
-# There were two main goals for this website performance optimization project
+## There were two main goals for this website performance optimization project
 
 1) Optimize Website Performance by working on the Critical Rendering Path (CRP) for 90+ speed per Google PageSpeed Insights
 2) Optimize Frames per Second (FPS) to perform at 60fps in pizza.html by getting rid of all the jank when resizing and scrolling through the website.
@@ -9,6 +9,19 @@ The goal of this project was to optimize the online portfolio for speed. How? By
 
 I've also applied skills such as Minify and Inline CSS for stylesheets and web fonts, asynch JS, and elimination of render-blocking CSS and JavaScript in above-the-fold content.
 
+### Optimizations Performed
+
+#### Part 1: Optimize PageSpeed Insights score for index.html
+* Removed external request for Web Fonts and used inline CSS to add them inside index.html
+* Minified and inlined CSS and added in index.html
+* Added `asynch` to JS Script and moved to the bottom of index.html body
+* Optimized all images using ImageOptim
+
+#### Part 2: Optimize Frames per Second in pizza.html
+* Edited the main.js file so the resizing of the pizzas happens in less than 5 ms and the scrolling runs at 60 FPS
+* Simplified the function `resizePizzas` so it doesn't trigger forced synchronous layout (FSL). The pizzas width simply gets set to a certain percentage of the original image size, depending on the slider position.
+* Changed `updatePositions` so it doesn't trigger FSL by first getting `scrollTop` and then updating all elements later.
+* Updated `querySelectorAll("#mover")` to `getElementsByClassName("mover")` so it doesn't have to recalculate on every iteration
 
 To get started, check out the repository and inspect the code.
 
@@ -18,13 +31,9 @@ To get started, check out the repository and inspect the code.
 
 Some useful tips to help you get started:
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+1. Check out the repository by cloning it with
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+  ```git clone https://github.com/rchrdchn/website-optimization.git```
 
 1. Open a browser and visit localhost:8080
 1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
@@ -34,9 +43,7 @@ Some useful tips to help you get started:
   $> ./ngrok http 8080
   ```
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
-
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+1. Copy the public URL ngrok gives you and try running it through [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
 #### Part 2: Optimize Frames per Second in pizza.html
 
